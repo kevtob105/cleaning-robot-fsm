@@ -46,7 +46,7 @@ IDLE → CLEANING → SPOT_CLEANING → CLEANING
        (battery)  (recharge)
 ```
 
-##FLOWCHART
+###FLOWCHART
 ![FLOWCHART](docs/flowchart.jpeg)
 
 ## 🛠️ Requirements
