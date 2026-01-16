@@ -46,6 +46,9 @@ IDLE → CLEANING → SPOT_CLEANING → CLEANING
        (battery)  (recharge)
 ```
 
+##FLOWCHART
+![FLOWCHART](docs/flowchart.jpeg)
+
 ## 🛠️ Requirements
 
 - **OS**: Ubuntu 22.04
