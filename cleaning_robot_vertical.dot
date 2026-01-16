@@ -1,0 +1,61 @@
+digraph CleaningRobotVertical {
+    rankdir=TB;
+    node [shape=box, style="rounded,filled", fontname="Arial", fontsize=11];
+    edge [fontname="Arial", fontsize=10];
+    
+    START [shape=circle, fillcolor=green, style=filled, fontcolor=white, label="START"];
+    
+    IDLE [fillcolor=lightgray, label="IDLE\n\nWaiting\nBattery: 100%"];
+    
+    CLEANING [fillcolor=lightgreen, label="CLEANING\n\nRandom movement\nSpeed: 0.2 m/s"];
+    
+    CHECK_BAT [shape=diamond, fillcolor=lightyellow, style=filled, label="Battery\n< 20%?"];
+    
+    CHECK_STUCK [shape=diamond, fillcolor=lightyellow, style=filled, label="Robot\nstuck?"];
+    
+    CHECK_WALL [shape=diamond, fillcolor=lightyellow, style=filled, label="Wall?\n(5%)"];
+    
+    CHECK_SPOT [shape=diamond, fillcolor=lightyellow, style=filled, label="Spot?\n(2%)"];
+    
+    SPOT [fillcolor=yellow, label="SPOT CLEANING\n\nSpiral\n~8 seconds"];
+    
+    EDGE_MODE [fillcolor=orange, label="EDGE CLEANING\n\nWall follow\n~12 seconds"];
+    
+    STUCK [fillcolor=red, fontcolor=white, label="STUCK\n\nReverse & Turn\n3 seconds"];
+    
+    DOCKING [fillcolor=lightblue, label="DOCKING\n\nTo (0,0)"];
+    
+    CHECK_DOCK [shape=diamond, fillcolor=lightyellow, style=filled, label="Arrived?"];
+    
+    CHARGING [fillcolor=cyan, label="CHARGING\n\n+1%/s"];
+    
+    CHECK_CHARGE [shape=diamond, fillcolor=lightyellow, style=filled, label="≥95%?"];
+    
+    START -> IDLE;
+    IDLE -> CLEANING [label="start"];
+    
+    CLEANING -> CHECK_BAT;
+    CHECK_BAT -> DOCKING [label="YES"];
+    CHECK_BAT -> CHECK_STUCK [label="NO"];
+    
+    CHECK_STUCK -> STUCK [label="YES"];
+    CHECK_STUCK -> CHECK_WALL [label="NO"];
+    
+    CHECK_WALL -> EDGE_MODE [label="YES"];
+    CHECK_WALL -> CHECK_SPOT [label="NO"];
+    
+    CHECK_SPOT -> SPOT [label="YES"];
+    CHECK_SPOT -> CLEANING [label="NO"];
+    
+    SPOT -> CLEANING [label="done"];
+    EDGE_MODE -> CLEANING [label="done"];
+    STUCK -> CLEANING [label="ok"];
+    
+    DOCKING -> CHECK_DOCK;
+    CHECK_DOCK -> CHARGING [label="YES"];
+    CHECK_DOCK -> DOCKING [label="NO"];
+    
+    CHARGING -> CHECK_CHARGE;
+    CHECK_CHARGE -> IDLE [label="YES"];
+    CHECK_CHARGE -> CHARGING [label="NO"];
+}

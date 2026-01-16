@@ -1,0 +1,84 @@
+digraph DetailedCleaningRobot {
+    rankdir=TB;
+    node [fontname="Arial"];
+    
+    // Start
+    start [shape=oval, fillcolor=green, style=filled, label="START\nRobot Initialize"];
+    
+    // Main states
+    idle [shape=box, style="rounded,filled", fillcolor=lightgray, label="IDLE\n\nBattery: 100%\nArea Cleaned: 0m²"];
+    
+    // Decision points
+    dec1 [shape=diamond, fillcolor=lightyellow, style=filled, label="Battery > 20%\n&& Timer > 3s?"];
+    
+    cleaning [shape=box, style="rounded,filled", fillcolor=lightgreen, 
+              label="CLEANING\n\n• Random movement\n• Speed: 0.2 m/s\n• Drain: 0.15%/s\n• Area tracking"];
+    
+    // Cleaning decisions
+    dec2 [shape=diamond, fillcolor=lightyellow, style=filled, label="Battery\n< 20%?"];
+    dec3 [shape=diamond, fillcolor=lightyellow, style=filled, label="Robot\nstuck?"];
+    dec4 [shape=diamond, fillcolor=lightyellow, style=filled, label="Wall\ndetected?\n(5% chance)"];
+    dec5 [shape=diamond, fillcolor=lightyellow, style=filled, label="Dirty spot?\n(2% chance)"];
+    dec6 [shape=diamond, fillcolor=lightyellow, style=filled, label="Obstacle\nahead?"];
+    
+    // Actions
+    avoid [shape=box, fillcolor=lightcoral, label="Avoid Obstacle\n\nRandom turn\n±0.5 rad/s"];
+    
+    spot [shape=box, style="rounded,filled", fillcolor=yellow, 
+          label="SPOT CLEANING\n\n• Spiral pattern\n• Radius: 0→1.5m\n• Duration: 8s\n• Drain: 1.5x"];
+    
+    edge_clean [shape=box, style="rounded,filled", fillcolor=orange, 
+           label="EDGE CLEANING\n\n• Wall following\n• Speed: 0.15 m/s\n• Duration: 12s\n• Drain: 1.2x"];
+    
+    stuck [shape=box, style="rounded,filled", fillcolor=red, fontcolor=white,
+           label="STUCK RECOVERY\n\n1. Reverse 1.5s\n2. Turn 1.5s\n3. Resume"];
+    
+    docking [shape=box, style="rounded,filled", fillcolor=lightblue, 
+             label="DOCKING\n\n• Navigate to (0,0)\n• Speed: 0.15 m/s\n• Align position"];
+    
+    dec7 [shape=diamond, fillcolor=lightyellow, style=filled, label="Distance\nto dock\n< 0.15m?"];
+    
+    charging [shape=box, style="rounded,filled", fillcolor=cyan, 
+              label="CHARGING\n\n• Stop motors\n• Charge: +1%/s\n• Monitor: battery"];
+    
+    dec8 [shape=diamond, fillcolor=lightyellow, style=filled, label="Battery\n≥ 95%?"];
+    
+    finish [shape=oval, fillcolor=red, style=filled, fontcolor=white, label="END"];
+    
+    // Flow
+    start -> idle;
+    idle -> dec1;
+    dec1 -> cleaning [label="YES"];
+    dec1 -> idle [label="NO\nWait"];
+    
+    cleaning -> dec2;
+    dec2 -> docking [label="YES"];
+    dec2 -> dec3 [label="NO"];
+    
+    dec3 -> stuck [label="YES"];
+    dec3 -> dec4 [label="NO"];
+    
+    dec4 -> edge_clean [label="YES"];
+    dec4 -> dec5 [label="NO"];
+    
+    dec5 -> spot [label="YES"];
+    dec5 -> dec6 [label="NO"];
+    
+    dec6 -> avoid [label="YES"];
+    dec6 -> cleaning [label="NO\nMove forward"];
+    
+    avoid -> cleaning;
+    spot -> cleaning [label="Complete"];
+    edge_clean -> cleaning [label="Lost wall\nOR Timeout"];
+    stuck -> cleaning [label="Recovery OK"];
+    
+    docking -> dec7;
+    dec7 -> charging [label="YES"];
+    dec7 -> docking [label="NO\nKeep moving"];
+    
+    charging -> dec8;
+    dec8 -> idle [label="YES"];
+    dec8 -> charging [label="NO\nKeep charging"];
+    
+    idle -> finish [label="Shutdown\ncommand"];
+}

@@ -1,0 +1,31 @@
+digraph CleaningRobotSimple {
+    rankdir=LR;
+    node [shape=box, style="rounded,filled", fontname="Arial Bold", fontsize=12];
+    
+    // States - gunakan nama aman
+    IDLE [fillcolor="#E8E8E8", label="IDLE"];
+    CLEANING [fillcolor="#90EE90", label="CLEANING"];
+    SPOT [fillcolor="#FFD700", label="SPOT\nCLEANING"];
+    EDGE_MODE [fillcolor="#FFA500", label="EDGE\nCLEANING"];
+    STUCK [fillcolor="#FF6B6B", fontcolor=white, label="STUCK"];
+    DOCKING [fillcolor="#87CEEB", label="DOCKING"];
+    CHARGING [fillcolor="#00CED1", label="CHARGING"];
+    
+    // Main flow
+    IDLE -> CLEANING [label="Start\n3s"];
+    
+    // Cleaning transitions
+    CLEANING -> SPOT [label="2%"];
+    CLEANING -> EDGE_MODE [label="5%"];
+    CLEANING -> STUCK [label="stuck"];
+    CLEANING -> DOCKING [label="battery\n<20%"];
+    
+    // Return to cleaning
+    SPOT -> CLEANING [label="8s"];
+    EDGE_MODE -> CLEANING [label="12s"];
+    STUCK -> CLEANING [label="3s"];
+    
+    // Charging cycle
+    DOCKING -> CHARGING [label="arrived"];
+    CHARGING -> IDLE [label="95%"];
+}
