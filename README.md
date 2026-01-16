@@ -16,6 +16,15 @@ Autonomous cleaning robot simulation using Finite State Machine (FSM) with real-
 
 ## 🎬 Demo
 
+### Gazebo Simulation
+![Gazebo Simulation](docs/gazebo.png)
+
+### RViz Visualization
+![RViz Dust Visualization](docs/rviz.png)
+
+### State Transition Diagram
+![FSM States](docs/state-transition.png)
+
 ### Cleaning Visualization
 - 🟤 **Brown spheres**: Dirty spots (uncleaned)
 - 🟢 **Green circles**: Cleaned areas
