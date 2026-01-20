@@ -2,6 +2,10 @@
 
 Autonomous cleaning robot simulation using Finite State Machine (FSM) with real-time visualization in RViz2.
 
+Nama Kelompok: 
+1. Kevin invocavit (4222211009)
+2. Alexander Cang (4222201027)
+
 ![Robot Cleaning](cleaning_robot_simple.png)
 
 ## 🎯 Features
