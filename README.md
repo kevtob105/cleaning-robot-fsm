@@ -5,6 +5,7 @@ Autonomous cleaning robot simulation using Finite State Machine (FSM) with real-
 Nama Kelompok: 
 1. Kevin invocavit (4222211009)
 2. Alexander Cang (4222201027)
+3. Mochamad Zidane Kurniadi (4222211016)
 
 ![Robot Cleaning](cleaning_robot_simple.png)
 
